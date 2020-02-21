@@ -1,0 +1,2 @@
+This directory is for compiled temporary files. Visual lisp editor
+throw errror when compiling project and the directory don`t exist.
