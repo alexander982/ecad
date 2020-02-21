@@ -174,15 +174,21 @@
                (mapcar 'vla-get-handle lst))
             *ecd:xrefs*)))
 
-(defun ecd:load-xrefs  ()
+(defun ecd:load-xrefs  (/ xrefs)
   ;;load saved xrefs data
+  (setq xrefs (vl-remove-if             ;filter out deleted entries
+                '(lambda (lst)
+                   (vl-some '(lambda (x)
+                               (not (handent x)))
+                            lst))
+                (vlax-ldata-get *ecd:dict-name* *ecd:xref-key*)))
   (setq *ecd:xrefs*
          (mapcar
            '(lambda (lst)
               (mapcar
                 '(lambda (h) (vlax-ename->vla-object (handent h)))
                 lst))
-           (vlax-ldata-get *ecd:dict-name* *ecd:xref-key*))))
+           xrefs)))
 
 (defun ecd:format-xref-text (page-zone)
   (strcat "(" (itoa (car page-zone)) "." (itoa (cadr page-zone)) ")"))
