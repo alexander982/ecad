@@ -288,6 +288,7 @@
   (set_tile "pickFirstPage" pick-first-page)
   (set_tile "qntListsInRow" pages-in-row)
   (set_tile "hZones" horizontal-zones)
+  (set_tile "pageFormat" page-format)
   (action_tile "pageFormat" "(setq page-format $value)")
   (action_tile
     "listInTable"
