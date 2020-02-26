@@ -200,23 +200,30 @@
 (defun ecd:link-xrefs  (/ ob1 ob2 xr1 xr2)
   ;; prompt user to select text objects in drawing. Replace 
   ;; text for xref zones. Save pair info
-  ;; FIX error if user cancel selection
-  (setq ob1 (ecd:pick-object
-              "¬ыберите текст первой перекрестной ссылки\n")
-        ob2 (ecd:pick-object
-              "¬ыберите текст второй перекрестной ссылки\n")
-        xr1 (ecd:page-zone
-              (ecd:get-insertion-point ob1))
-        xr2 (ecd:page-zone
-              (ecd:get-insertion-point ob2)))
-  (ecd:store-simple-links (list ob1 ob2))
-  (vla-put-textString
-    ob1
-    (ecd:format-xref-text xr2))
-  (vla-put-textString
-    ob2
-    (ecd:format-xref-text xr1))
-  (ecd:save-xrefs)
+  (if (setq ob1 (ecd:pick-object
+                  "¬ыберите текст первой перекрестной ссылки\n"))
+    (progn
+      (vla-highlight ob1 :vlax-true)
+      (if (setq ob2 (ecd:pick-object
+                      "¬ыберите текст второй перекрестной ссылки\n"))
+        (progn
+          (vla-highlight ob2 :vlax-true)
+          (setq xr1
+                    (ecd:page-zone
+                      (ecd:get-insertion-point ob1))
+                xr2
+                    (ecd:page-zone
+                      (ecd:get-insertion-point ob2)))
+          (ecd:store-simple-links (list ob1 ob2))
+          (vla-put-textString
+            ob1
+            (ecd:format-xref-text xr2))
+          (vla-put-textString
+            ob2
+            (ecd:format-xref-text xr1))
+          (ecd:save-xrefs)
+          (vla-highlight ob2 :vlax-false)))
+      (vla-highlight ob1 :vlax-false)))
   (princ))
 
 (defun ecd:update-xrefs  (/ xr1 xr2)
