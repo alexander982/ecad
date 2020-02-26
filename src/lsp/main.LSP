@@ -260,7 +260,7 @@
           pages-in-row     (cadr (assoc "pages-in-row" page-data)))
     ;; defaults
     (setq page-format
-           "A4 книжн."
+           "0"
           horizontal-zones
            "6"
           pages-layout
@@ -313,8 +313,8 @@
         *ecd:pages-in-row*  (atoi pages-in-row)
         *ecd:horizontal-zones*  (atoi horizontal-zones)
         *ecd:page*  (cond
-                      ((= page-format "A4 книжн.") *ecd:a4-book*)
-                      ((= page-format "А3 альб.") *ecd:a3-album*)))
+                      ((= page-format "0") *ecd:a4-book*)
+                      ((= page-format "1") *ecd:a3-album*)))
   (vlax-ldata-put *ecd:dict-name* *ecd:page-setup-key* page-data))
 
 (ecd:load-xrefs)
