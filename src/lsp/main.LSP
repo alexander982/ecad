@@ -8,7 +8,8 @@
 (setq *ecd:xrefs* '())
 
 ;;(width height left-margin right-margin top-margin bottom-margin)
-(setq *ecd:a4-page* (list 210.0 297.0 20.0 5.0 5.0 5.0))
+(setq *ecd:a4-book* (list 210.0 297.0 20.0 5.0 5.0 5.0))
+(setq *ecd:page* *ecd:a4-book*)
 (setq *ecd:a4-zone-number* 6)
 (setq *ecd:pages-layout* "table") ;;table or row
 (setq *ecd:pages-in-row* 4)
@@ -87,8 +88,8 @@
         y1 (cadr page)
         x (car pt)
         y (cadr pt)
-        width (car *ecd:a4-page*)
-        height (cadr *ecd:a4-page*))
+        width (car *ecd:page*)
+        height (cadr *ecd:page*))
   (cond
     ((= "table" *ecd:pages-layout*)
      (and (> x x1)
@@ -126,8 +127,8 @@
         first-page (ecd:get-first-page-setup)
         x1         (car first-page)
         y1         (cadr first-page)
-        width      (car *ecd:a4-page*)
-        height     (cadr *ecd:a4-page*))
+        width      (car *ecd:page*)
+        height     (cadr *ecd:page*))
   (cond
     ((= *ecd:pages-layout* "table")
      (+ (ecd:column-number x1 x width)
@@ -140,9 +141,9 @@
   (setq x            (car pt)
         first-page   (ecd:get-first-page-setup)
         x1           (car first-page)
-        width        (car *ecd:a4-page*)
-        left-margin  (nth 2 *ecd:a4-page*)
-        right-margin (nth 3 *ecd:a4-page*)
+        width        (car *ecd:page*)
+        left-margin  (nth 2 *ecd:page*)
+        right-margin (nth 3 *ecd:page*)
         page-width   (/ (- width left-margin right-margin)
                         *ecd:a4-zone-number*))
   (cond
