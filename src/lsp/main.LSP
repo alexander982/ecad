@@ -309,9 +309,12 @@
                         (list "pages-in-row" pages-in-row)))
   (if (= pick-first-page "1")
     (ecd:save-first-page-setup (ecd:get-first-page)))
-  ;;TODO fix and set ather global symbols
-  (setq *ecd:pages-layout* pages-layout
-        *ecd:pages-in-row* pages-in-row)
+  (setq *ecd:pages-layout*  pages-layout
+        *ecd:pages-in-row*  (atoi pages-in-row)
+        *ecd:horizontal-zones*  (atoi horizontal-zones)
+        *ecd:page*  (cond
+                      ((= page-format "A4 книжн.") *ecd:a4-book*)
+                      ((= page-format "А3 альб.") *ecd:a3-album*)))
   (vlax-ldata-put *ecd:dict-name* *ecd:page-setup-key* page-data))
 
 (ecd:load-xrefs)
