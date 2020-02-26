@@ -9,6 +9,8 @@
 
 ;;(width height left-margin right-margin top-margin bottom-margin)
 (setq *ecd:a4-book* (list 210.0 297.0 20.0 5.0 5.0 5.0))
+(setq *ecd:a4-album* (list 297.0 210.0 20.0 5.0 5.0 5.0))
+(setq *ecd:a3-album* (list 420.0 297.0 20.0 5.0 5.0 5.0))
 (setq *ecd:page* *ecd:a4-book*)
 (setq *ecd:a4-zone-number* 6)
 (setq *ecd:pages-layout* "table") ;;table or row
