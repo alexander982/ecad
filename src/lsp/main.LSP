@@ -318,6 +318,25 @@
                       ((= page-format "1") *ecd:a3-album*)))
   (vlax-ldata-put *ecd:dict-name* *ecd:page-setup-key* page-data))
 
+(defun ecd:load-page-setup  (/ page-data page-format)
+  (if (setq page-data (vlax-ldata-get *ecd:dict-name* *ecd:page-setup-key*))
+    (setq
+      page-format
+       (cadr (assoc "page-format" page-data))
+      *ecd:pages-layout*
+       (cadr (assoc "pages-layout" page-data))
+      *ecd:pages-in-row*
+       (atoi (cadr (assoc "pages-in-row" page-data)))
+      *ecd:horizontal-zones*
+       (atoi (cadr (assoc "horizontal-zones" page-data)))
+      *ecd:page*
+       (cond
+         ((= page-format "0")
+          *ecd:a4-book*)
+         ((= page-format "1")
+          *ecd:a3-album*)))))
+
+(ecd:load-page-setup)
 (ecd:load-xrefs)
 
 ;|«Visual LISP© Format Options»
