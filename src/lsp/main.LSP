@@ -18,6 +18,7 @@
 (setq *ecd:dict* (vla-add *dicts* *ecd:dict-name*))
 (setq *ecd:first-page-key* "1st-page")
 (setq *ecd:xref-key* "xref")
+(setq *ecd:page-setup-key* "page-setup")
 
 
 (defun ecd:get-first-page  (/ pt1 pt2)
@@ -238,6 +239,71 @@
          (vl-remove-if
            '(lambda (lst) (vl-some 'vlax-erased-p lst))
            *ecd:xrefs*)))
+
+(defun ecd:setup-page-dialog
+                              (/ page-data page-format horizontal-zones
+                               pages-layout pages-in-row
+                               pick-first-page dcl-id)
+  (if (setq page-data (vlax-ldata-get *ecd:dict-name* *ecd:page-setup-key*))
+    (setq page-format      (cadr (assoc "page-format" page-data))
+          horizontal-zones (cadr (assoc "horizontal-zones" page-data))
+          pages-layout      (cadr (assoc "pages-layout" page-data))
+          pages-in-row     (cadr (assoc "pages-in-row" page-data)))
+    ;; defaults
+    (setq page-format
+           "A4 книжн."
+          horizontal-zones
+           "6"
+          pages-layout
+           "table"
+          pages-in-row "4"))
+  (if (vlax-ldata-get *ecd:dict-name* *ecd:first-page-key*)
+    (setq pick-first-page "0")
+    (setq pick-first-page "1"))
+  (if (< (setq dcl-id (load_dialog "page_setup.dcl")) 0)
+    (progn
+      (alert "диалог page_setup.dcl не найден")
+      (exit)))
+  (if (not (new_dialog "page_setup" dcl-id))
+    (progn
+      (alert "ошибка создания диалога")
+      (exit)))
+  (start_list "pageFormat")
+  (mapcar 'add_list (list "A4 книжн." "А3 альб."))
+  (end_list)
+  (if (= pages-layout "table")
+    (set_tile "listInTable" "1")
+    (progn
+      (set_tile "listInRow" "1")
+      (mode_tile "qntListsInRow" 1)))
+  (set_tile "pickFirstPage" pick-first-page)
+  (set_tile "qntListsInRow" pages-in-row)
+  (set_tile "hZones" horizontal-zones)
+  (action_tile "pageFormat" "(setq page-format $value)")
+  (action_tile
+    "listInTable"
+    "(setq pages-layout \"table\") (mode_tile \"qntListsInRow\" 0)")
+  (action_tile
+    "listInRow"
+    "(setq pages-layout \"row\") (mode_tile \"qntListsInRow\" 1)")
+  (action_tile "pickFirstPage" "(setq pick-first-page $value)")
+  (action_tile "accept"
+    (strcat "(setq pages-in-row (get_tile \"qntListsInRow\"))"
+            "(setq horizontal-zones (get_tile \"hZones\"))"
+            "(done_dialog 1)"))
+  (start_dialog)
+  (unload_dialog dcl-id)
+  ;;TODO add user input validation
+  (setq page-data (list (list "page-format" page-format)
+                        (list "horizontal-zones" horizontal-zones)
+                        (list "pages-layout" pages-layout)
+                        (list "pages-in-row" pages-in-row)))
+  (if (= pick-first-page "1")
+    (ecd:save-first-page-setup (ecd:get-first-page)))
+  ;;TODO fix and set ather global symbols
+  (setq *ecd:pages-layout* pages-layout
+        *ecd:pages-in-row* pages-in-row)
+  (vlax-ldata-put *ecd:dict-name* *ecd:page-setup-key* page-data))
 
 (ecd:load-xrefs)
 
