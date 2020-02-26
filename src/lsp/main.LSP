@@ -12,7 +12,7 @@
 (setq *ecd:a4-album* (list 297.0 210.0 20.0 5.0 5.0 5.0))
 (setq *ecd:a3-album* (list 420.0 297.0 20.0 5.0 5.0 5.0))
 (setq *ecd:page* *ecd:a4-book*)
-(setq *ecd:a4-zone-number* 6)
+(setq *ecd:horizontal-zones* 6)
 (setq *ecd:pages-layout* "table") ;;table or row
 (setq *ecd:pages-in-row* 4)
 
@@ -147,7 +147,7 @@
         left-margin  (nth 2 *ecd:page*)
         right-margin (nth 3 *ecd:page*)
         page-width   (/ (- width left-margin right-margin)
-                        *ecd:a4-zone-number*))
+                        *ecd:horizontal-zones*))
   (cond
     ((= *ecd:pages-layout* "table")
      (ecd:column-number
