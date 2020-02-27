@@ -363,6 +363,15 @@
          ((= page-format "1")
           *ecd:a3-album*)))))
 
+(defun c:insertxr ()
+  (ecd:insert-xrefs))
+
+(defun c:linkxr ()
+  (ecd:link-xrefs))
+
+(defun c:xsettings ()
+  (ecd:setup-page-dialog))
+
 (ecd:load-page-setup)
 (ecd:load-xrefs)
 
