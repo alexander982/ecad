@@ -197,6 +197,26 @@
 (defun ecd:format-xref-text (page-zone)
   (strcat "(" (itoa (car page-zone)) "." (itoa (cadr page-zone)) ")"))
 
+(defun ecd:insert-xrefs  (/ pt1 pt2 ob1 ob2 xr1 xr2)
+  ;;TODO add boundign box draw for pick point prompt
+  (if (setq pt1 (getpoint "\n”кажите точку вставки первой ссылки: "))
+    (progn
+      (setq ob1 (vla-addtext *mspace* "(0.0)" (vlax-3d-point pt1) 3.0))
+      (if (setq pt2 (getpoint "\n”кажите точку втавки второй ссылки:"))
+        (progn
+          (setq ob2 (vla-addtext
+                      *mspace*
+                      (ecd:format-xref-text (ecd:page-zone pt1))
+                      (vlax-3d-point pt2)
+                      3.0))
+          (vla-put-textString
+            ob1
+            (ecd:format-xref-text (ecd:page-zone pt2)))
+          (ecd:store-simple-links (list ob1 ob2))
+          (ecd:save-xrefs))
+        (vla-delete ob1))))
+  (princ))
+
 (defun ecd:link-xrefs  (/ ob1 ob2 xr1 xr2)
   ;; prompt user to select text objects in drawing. Replace 
   ;; text for xref zones. Save pair info
