@@ -369,6 +369,9 @@
 (defun c:linkxr ()
   (ecd:link-xrefs))
 
+(defun c:updatexr ()
+  (ecd:update-xrefs))
+
 (defun c:xsettings ()
   (ecd:setup-page-dialog))
 
