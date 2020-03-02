@@ -6,6 +6,7 @@
 (setq *mspace* (vla-get-modelSpace *doc*))
 
 (setq *ecd:xrefs* '())
+(setq *ecd:settings-present* nil)
 
 ;;(width height left-margin right-margin top-margin bottom-margin)
 (setq *ecd:a4-book* (list 210.0 297.0 20.0 5.0 5.0 5.0))
@@ -342,7 +343,8 @@
         *ecd:horizontal-zones*  (atoi horizontal-zones)
         *ecd:page*  (cond
                       ((= page-format "0") *ecd:a4-book*)
-                      ((= page-format "1") *ecd:a3-album*)))
+                      ((= page-format "1") *ecd:a3-album*))
+        *ecd:settings-present* t)
   (vlax-ldata-put *ecd:dict-name* *ecd:page-setup-key* page-data))
 
 (defun ecd:load-page-setup  (/ page-data page-format)
@@ -361,16 +363,23 @@
          ((= page-format "0")
           *ecd:a4-book*)
          ((= page-format "1")
-          *ecd:a3-album*)))))
+          *ecd:a3-album*))
+      *ecd:settings-present* t)))
 
 (defun c:insertxr ()
-  (ecd:insert-xrefs))
+  (if *ecd:settings-present*
+    (ecd:insert-xrefs)
+    (ecd:setup-page-dialog)))
 
-(defun c:linkxr ()
-  (ecd:link-xrefs))
+(defun c:linkxr  ()
+  (if *ecd:settings-present*
+    (ecd:link-xrefs)
+    (ecd:setup-page-dialog)))
 
-(defun c:updatexr ()
-  (ecd:update-xrefs))
+(defun c:updatexr  ()
+  (if *ecd:xrefs*
+    (ecd:update-xrefs)
+    (princ)))
 
 (defun c:xsettings ()
   (ecd:setup-page-dialog))
