@@ -5,6 +5,8 @@
 
 (setq *mspace* (vla-get-modelSpace *doc*))
 
+(setq *ecd:color-interface-object* nil)
+
 (setq *ecd:xrefs* '())
 (setq *ecd:settings-present* nil)
 
@@ -276,6 +278,17 @@
          (vl-remove-if
            '(lambda (lst) (vl-some 'vlax-erased-p lst))
            *ecd:xrefs*)))
+
+(defun ecd:acad-major-version ()
+  (substr (vla-get-version (vlax-get-acad-object)) 1 2))
+
+(defun ecd:i-acad-color  ()
+  (if *ecd:color-interface-object*
+    *ecd:color-interface-object*
+    (setq *ecd:color-interface-object*
+           (vla-GetInterfaceObject
+             (vlax-get-acad-object)
+             (strcat "AutoCAD.AcCmColor." (ecd:acad-major-version))))))
 
 (defun ecd:setup-page-dialog
                               (/ page-data page-format horizontal-zones
