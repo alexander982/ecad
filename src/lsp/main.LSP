@@ -203,18 +203,22 @@
 (defun ecd:format-xref-text (page-zone)
   (strcat "(" (itoa (car page-zone)) "." (itoa (cadr page-zone)) ")"))
 
-(defun ecd:insert-xrefs  (/ pt1 pt2 ob1 ob2 xr1 xr2)
+(defun ecd:insert-xrefs  (/ pt1 pt2 ob1 ob2 xr1 xr2 tc)
   ;;TODO add boundign box draw for pick point prompt
   (if (setq pt1 (getpoint "\n”кажите точку вставки первой ссылки: "))
     (progn
-      (setq ob1 (vla-addtext *mspace* "(0.0)" (vlax-3d-point pt1) 3.0))
+      (setq tc (ecd:i-acad-color))
+      (vla-put-ColorIndex tc *ecd:xref-color*)
+      (setq ob1 (vla-addtext *mspace* "(0.0)" (vlax-3d-point pt1) *ecd:xref-height*))
+      (vla-put-TrueColor ob1 tc)
       (if (setq pt2 (getpoint "\n”кажите точку втавки второй ссылки:"))
         (progn
           (setq ob2 (vla-addtext
                       *mspace*
                       (ecd:format-xref-text (ecd:page-zone pt1))
                       (vlax-3d-point pt2)
-                      3.0))
+                      *ecd:xref-height*))
+          (vla-put-TrueColor ob2 tc)
           (vla-put-textString
             ob1
             (ecd:format-xref-text (ecd:page-zone pt2)))
