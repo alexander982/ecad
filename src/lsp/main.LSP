@@ -227,12 +227,14 @@
         (vla-delete ob1))))
   (princ))
 
-(defun ecd:link-xrefs  (/ ob1 ob2 xr1 xr2)
+(defun ecd:link-xrefs  (/ ob1 ob2 xr1 xr2 tc)
   ;; prompt user to select text objects in drawing. Replace 
   ;; text for xref zones. Save pair info
   (if (setq ob1 (ecd:pick-object
                   "¬ыберите текст первой перекрестной ссылки\n"))
     (progn
+      (setq tc (ecd:i-acad-color))
+      (vla-put-ColorIndex tc *ecd:xref-color*)
       (vla-highlight ob1 :vlax-true)
       (if (setq ob2 (ecd:pick-object
                       "¬ыберите текст второй перекрестной ссылки\n"))
@@ -251,6 +253,8 @@
           (vla-put-textString
             ob2
             (ecd:format-xref-text xr1))
+          (vla-put-TrueColor ob1 tc)
+          (vla-put-TrueColor ob2 tc)
           (ecd:save-xrefs)
           (vla-highlight ob2 :vlax-false)))
       (vla-highlight ob1 :vlax-false)))
