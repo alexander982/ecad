@@ -1,5 +1,5 @@
 page_setup:dialog {
-  label = "Настройка страниц";
+  label = "Настройка схемы";
   :boxed_column {
     label="Параметры новых ссылок";
     :popup_list {
