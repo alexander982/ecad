@@ -1,11 +1,26 @@
 page_setup:dialog {
-  label = "Настройка страниц";
+  label = "Настройка схемы";
+  :boxed_column {
+    label="Параметры новых ссылок";
+    :popup_list {
+      label="Цвет";
+      key="xrColor";
+      edit_width=14;
+    }
+    :edit_box{
+      label="Размер шрифта";
+      key="xrSize";
+      value="3.0";
+      edit_width=4;
+    }
+  }
   :boxed_column {
     label="Настройка страницы";
     :popup_list {
       label="Формат листов";
       key="pageFormat";
-      list="A4 книжн.\nА3 альб.";}
+      list="A4 книжн.\nА3 альб.";
+      edit_width=14;}
     :toggle {
       label="Только горизонтальные зоны";
       key="horizontalOnly";
