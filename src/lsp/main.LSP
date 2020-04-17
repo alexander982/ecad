@@ -55,6 +55,12 @@
           y1  tmp))
   (list x1 y1 x2 y2))
 
+(defun ecd:make-2d-point  (x y)
+  (vlax-make-variant
+    (vlax-safearray-fill
+      (vlax-make-safearray vlax-vbDouble '(0 . 1))
+      (list x y))))
+
 (defun ecd:save-first-page-setup  (setup)
   (vla-add *dicts* *ecd:dict-name*)
   (vlax-ldata-put *ecd:dict-name*
