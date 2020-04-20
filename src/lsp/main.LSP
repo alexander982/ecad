@@ -458,6 +458,11 @@
     (ecd:link-xrefs)
     (ecd:setup-page-dialog)))
 
+(defun c:followxr ()
+  (if *ecd:xrefs*
+    (ecd:follow-xref)
+    (princ)))
+
 (defun c:updatexr  ()
   (if *ecd:xrefs*
     (ecd:update-xrefs)
