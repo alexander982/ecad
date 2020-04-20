@@ -235,6 +235,14 @@
 (defun ecd:format-xref-text (page-zone)
   (strcat "(" (itoa (car page-zone)) "." (itoa (cadr page-zone)) ")"))
 
+(defun ecd:follow-xref  (/ pt obj)
+  (setq obj (ecd:pick-object "Выберите ссылку\n"))
+  (if (and obj (ecd:in-xrefs-p obj))
+    (progn
+      (setq pt (ecd:get-insertion-point
+                 (ecd:xref-target obj)))
+      (ecd:move-view-to-point (car pt) (cadr pt)))))
+
 (defun ecd:insert-xrefs  (/ pt1 pt2 ob1 ob2 xr1 xr2 tc)
   ;;TODO add boundign box draw for pick point prompt
   (if (setq pt1 (getpoint "\nУкажите точку вставки первой ссылки: "))
