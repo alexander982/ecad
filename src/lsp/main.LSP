@@ -185,6 +185,15 @@
 (defun ecd:store-simple-links (lst)
   (setq *ecd:xrefs* (append *ecd:xrefs* (list lst))))
 
+(defun ecd:in-xrefs-p  (obj)
+  ;; check if object is in xrefs list
+  (vl-some
+    '(lambda (l)
+      (vl-some
+        '(lambda (o) (equal o obj))
+        l))
+    *ecd:xrefs*))
+
 (defun ecd:save-xrefs  ()
   ;;permanently save xrefs data in drawing
   (ecd:clean-xrefs)
