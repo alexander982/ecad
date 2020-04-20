@@ -61,6 +61,11 @@
       (vlax-make-safearray vlax-vbDouble '(0 . 1))
       (list x y))))
 
+(defun ecd:move-view-to-point (x y / view)
+  (setq view (vla-get-ActiveViewport *doc*))
+  (vla-put-center view (ecd:make-2d-point x y))
+  (vla-put-ActiveViewport *doc* view))
+
 (defun ecd:save-first-page-setup  (setup)
   (vla-add *dicts* *ecd:dict-name*)
   (vlax-ldata-put *ecd:dict-name*
