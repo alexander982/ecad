@@ -59,6 +59,16 @@ To access the Customize User Interface dialog box, click the Tools menu > Custom
           <LargeImage Name="RCDATA_16_WINHOR" />
         </Macro>
       </MenuMacro>
+      <MenuMacro UID="MMU_0006">
+        <Macro type="Any">
+          <Revision MajorVersion="16" MinorVersion="2" UserVersion="1" />
+          <Name xlate="true" UID="XLS_1712">followxr</Name>
+          <Command>^C^P(progn (if (not c:insertxr) (load "ecad.fas")) (princ));followxr;</Command>
+          <HelpString xlate="true" UID="XLS_1713">Перейти по ссылке</HelpString>
+          <SmallImage Name="RCDATA_16_ZOOPRE" />
+          <LargeImage Name="RCDATA_16_ZOOPRE" />
+        </Macro>
+      </MenuMacro>
     </MacroGroup>
     <MenuRoot>
       <AcceleratorRoot />
@@ -213,6 +223,13 @@ To access the Customize User Interface dialog box, click the Tools menu > Custom
             <Name xlate="true" UID="XLS_0003">Связать ссылки</Name>
             <MenuItem>
               <MacroRef MenuMacroID="MMU_0002" />
+            </MenuItem>
+          </ToolbarButton>
+          <ToolbarButton IsSeparator="false" UID="TBBU_0005">
+            <Revision MajorVersion="16" MinorVersion="2" UserVersion="1" />
+            <Name xlate="true" UID="XLS_1710">Перейти</Name>
+            <MenuItem>
+              <MacroRef MenuMacroID="MMU_0006" />
             </MenuItem>
           </ToolbarButton>
           <ToolbarButton IsSeparator="false" UID="TBBU_0003">
