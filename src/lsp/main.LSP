@@ -194,6 +194,18 @@
         l))
     *ecd:xrefs*))
 
+(defun ecd:xref-target  (obj / pair)
+  ;;return xref target
+  (setq pair (car (vl-member-if
+                    '(lambda (lst)
+                       (vl-some
+                         '(lambda (o) (equal o obj))
+                         lst))
+                    *ecd:xrefs*)))
+  (if (equal (car pair) obj)
+    (cadr pair)
+    (car pair)))
+
 (defun ecd:save-xrefs  ()
   ;;permanently save xrefs data in drawing
   (ecd:clean-xrefs)
