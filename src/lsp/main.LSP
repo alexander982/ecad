@@ -330,6 +330,15 @@
            '(lambda (lst) (vl-some 'vlax-erased-p lst))
            *ecd:xrefs*)))
 
+(defun ecd:xrefs-set-color (color)
+  (setq tc (ecd:i-acad-color))
+  (vla-put-ColorIndex tc color)
+  (foreach pair *ecd:xrefs*
+    (progn
+      (vla-put-TrueColor (car pair) tc)
+      (vla-put-TrueColor (cadr pair) tc)))
+  (princ))
+
 (defun ecd:acad-major-version ()
   (substr (vla-get-version (vlax-get-acad-object)) 1 2))
 
