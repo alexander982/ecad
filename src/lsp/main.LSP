@@ -480,8 +480,12 @@
 (defun c:xsettings ()
   (ecd:setup-page-dialog))
 
+(princ "ecad loading...\n")
+
 (ecd:load-page-setup)
 (ecd:load-xrefs)
+
+(princ (strcat "Íàéäåíî " (itoa (length *ecd:xrefs*)) " ïàğ ññûëîê\n"))
 
 ;|«Visual LISP© Format Options»
 (80 2 40 0 nil "end of " 80 9 0 0 1 nil T T T)
