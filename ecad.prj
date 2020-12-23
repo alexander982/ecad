@@ -1,4 +1,4 @@
-;;; VLisp project file [V2.0] ecad saved to:[C:/Documents and Settings/Admin/Мои документы/vlisp/ecad] at:[2/8/20] 
+;;; VLisp project file [V2.0]
 (VLISP-PROJECT-LIST
   :name
   ecad
@@ -9,7 +9,7 @@
   :tmp-directory
   "tmp"
   :project-keys
-  (:BUILD (:standard) :MERGED nil :SAFE-MODE T :MSGLEVEL 1)
+  (:BUILD (:standard) :MERGED T :SAFE-MODE T :MSGLEVEL 1)
   :context-id
   :AUTOLISP)
 ;;; EOF
