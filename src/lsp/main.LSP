@@ -29,6 +29,8 @@
 (setq *ecd:xref-key* "xref")
 (setq *ecd:page-setup-key* "page-setup")
 
+(setq *ecd:viewport-height* 150)
+
 
 (defun ecd:get-first-page  (/ pt1 pt2)
   (setq pt1 (getpoint "Укажите угол первого листа >_"))
@@ -64,6 +66,7 @@
 (defun ecd:move-view-to-point (x y / view)
   (setq view (vla-get-ActiveViewport *doc*))
   (vla-put-center view (ecd:make-2d-point x y))
+  (vla-put-height view *ecd:viewport-height*)
   (vla-put-ActiveViewport *doc* view))
 
 (defun ecd:save-first-page-setup  (setup)
