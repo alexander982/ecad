@@ -176,12 +176,24 @@
   (vlax-ldata-delete *ecd:dict-name* *ecd:xref-key*)
   (princ))
 
-(defun ecd:clean-xrefs  ()
+(defun ecd:clean-xrefs	()
   ;; clean from deleted objects
   (setq *ecd:xrefs*
-         (vl-remove-if
-           '(lambda (lst) (vl-some 'vlax-erased-p lst))
-           *ecd:xrefs*)))
+	 (vl-remove-if 'ecd:check-pair *ecd:xrefs*)))
+
+(defun ecd:check-pair  (lst / some-erased tc)
+  ;; return true if one of pair xref are deleted and color in magneta remaining xref
+  (setq some-erased nil)
+  (if (vl-some 'vlax-erased-p lst)
+    (progn
+      (setq some-erased t)
+      (setq tc (ecd:i-acad-color))
+      (vla-put-ColorIndex tc acMagenta)))
+  (if (and (not (vlax-erased-p (car lst))) some-erased)
+    (vla-put-TrueColor (car lst) tc))
+  (if (and (not (vlax-erased-p (cadr lst))) some-erased)
+    (vla-put-TrueColor (cadr lst) tc))
+  some-erased)
 
 (defun ecd:xrefs-set-color (color)
   (setq tc (ecd:i-acad-color))
