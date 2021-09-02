@@ -3,7 +3,11 @@
   :name
   ecad
   :own-list
-  ("src/lsp/main")
+  ("src/lsp/settings"
+   "src/lsp/dict-store"
+   "src/lsp/xrefs"
+   "src/lsp/ui"
+   "src/lsp/main")
   :fas-directory
   "fas"
   :tmp-directory
